@@ -74,4 +74,4 @@ GitHub Actions ([`.github/workflows/release.yml`](.github/workflows/release.yml)
 
 ## Licens
 
-Skillens text och skript är under [MIT-licensen](LICENSE). Namnet Promptbanken och Promptbankens logotyp (`assets/promptbanken-*.png`) ingår inte i licensen och får inte användas för att antyda att en ändrad version kommer från Promptbanken.
+Skillens text och skript är under [MIT-licensen](LICENSE). Namnet Promptbanken och Promptbankens logotyp (`processkartan/assets/promptbanken-*.png`) ingår inte i licensen och får inte användas för att antyda att en ändrad version kommer från Promptbanken. Se [NOTICE.md](NOTICE.md).
