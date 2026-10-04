@@ -1,0 +1,14 @@
+{
+  "name": "processkartan-skill",
+  "private": true,
+  "description": "Processkartan Skill: gör processkartor som går att importera i Processkartan. Källkod och releaseverktyg.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "validate": "node tools/validate-skill.mjs",
+    "build": "node tools/package.mjs",
+    "release:dry": "node tools/release-check.mjs"
+  }
+}

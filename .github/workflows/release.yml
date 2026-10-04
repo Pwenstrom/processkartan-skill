@@ -1,0 +1,79 @@
+# Release av Processkartan Skill.
+#
+# Den här filen ligger i skill/ i Processkartans repo, där den inte körs. Den körs först när skill/ ligger som rot i ett
+# eget repo (git subtree split --prefix=skill), vilket är avsikten: det repot är den öppna distributionsytan.
+#
+#   * Tagga v<version> (version = metadata.version i processkartan/SKILL.md): validerar, bygger skill.zip och SHA256SUMS
+#     och publicerar en GitHub Release med båda filerna och texten ur CHANGELOG.md.
+#   * Manuell körning (workflow_dispatch): samma steg, men ingenting publiceras. Filerna hamnar som en artifact att
+#     ladda ner och granska. Det är torrkörningen.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validera skillen
+        run: node tools/validate-skill.mjs processkartan
+
+      - name: Läs versionen och kontrollera taggen
+        id: version
+        run: |
+          VERSION="$(node tools/package.mjs --print-version)"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ] && [ "${GITHUB_REF_NAME}" != "v${VERSION}" ]; then
+            echo "Taggen ${GITHUB_REF_NAME} stämmer inte med versionen v${VERSION} i processkartan/SKILL.md" >&2
+            exit 1
+          fi
+
+      - name: Bygg skill.zip och SHA256SUMS
+        run: node tools/package.mjs --out dist
+
+      - name: Kontrollera kontrollsumman
+        working-directory: dist
+        run: sha256sum -c SHA256SUMS
+
+      - name: Kontrollera att bygget är reproducerbart
+        run: |
+          node tools/package.mjs --out dist-again
+          cmp dist/skill.zip dist-again/skill.zip
+          cmp dist/SHA256SUMS dist-again/SHA256SUMS
+
+      - name: Text till releasen ur CHANGELOG.md
+        run: node tools/release-notes.mjs "${{ steps.version.outputs.version }}" > RELEASE_NOTES.md
+
+      - name: Spara filerna som artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: processkartan-skill-${{ steps.version.outputs.version }}
+          path: |
+            dist/skill.zip
+            dist/SHA256SUMS
+            RELEASE_NOTES.md
+          if-no-files-found: error
+
+      # Bara en taggad version publiceras. En manuell körning (torrkörning) når aldrig hit.
+      - name: Publicera GitHub Release
+        if: github.ref_type == 'tag' && startsWith(github.ref_name, 'v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" dist/skill.zip dist/SHA256SUMS \
+            --title "Processkartan Skill ${{ steps.version.outputs.version }}" \
+            --notes-file RELEASE_NOTES.md \
+            --verify-tag \
+            --latest
