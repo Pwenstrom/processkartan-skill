@@ -3,7 +3,7 @@ name: processkartan
 description: Gör processkartor (swimlane-flödesscheman) som kan importeras i Processkartan, ett verktyg i Promptbanken (processkartan.promptbanken.se). Använd när användaren vill göra, kartlägga, rita eller ändra en processkarta, ett flödesschema eller en swimlane-karta av en processbeskrivning, mötesanteckningar, en transkribering, ett dokument eller en idé, eller ber om en JSON-fil för Processkartan. Skillen skriver filen (.processkartan.json) i rätt format och kontrollerar den. Använd inte för BPMN-modellering, projektplaner eller organisationsscheman.
 metadata:
   author: Promptbanken
-  version: "1.0.0"
+  version: "1.1.0"
   language: sv
 ---
 
@@ -33,11 +33,31 @@ Innan du börjar: innehåller underlaget personuppgifter, sekretessbelagd eller 
 3. **Ordna stegen.** Listordningen är flödesordningen: ett steg går som standard vidare till nästa steg i listan. Lägg huvudflödet först och undantag och avvikelser efter. Det gör kartan tydligare.
 4. **Skriv JSON-filen** enligt formatet nedan. Fullständiga regler finns i `references/format.md`.
 5. **Kontrollera filen.** Kan du köra kod: kör `node scripts/validate.mjs <fil>`. Det skriptet gör samma kontroll som Processkartans import. Rätta tills det står OK och inga saker att rätta återstår. Kan du inte köra kod: gå igenom checklistan längre ned.
-6. **Lämna över.** Spara filen som `<kort-namn>.processkartan.json`. Svara kort:
-   - var filen finns (eller skriv JSON:en i ett enda kodblock om du inte kan spara filer),
-   - en sammanfattning på 3–5 rader: roller, antal steg och beslut, vilka slingor och slut som finns,
-   - dina antaganden och det som var oklart, högst fem punkter,
-   - nästa steg för användaren: öppna Processkartan, välj **Importera**, välj filen, titta i **Snabbkontroll** och rätta i listan.
+6. **Lämna över.** Spara filen som `<kort-namn>.processkartan.json`. Överlämningen har alltid tre delar, och de får aldrig kortas bort, inte ens när du i övrigt håller svaret kort:
+   - **filen**: var den finns (eller JSON:en i ett enda kodblock om du inte kan spara filer), och en sammanfattning på 3–5 rader: roller, antal steg och beslut, vilka slingor och slut som finns,
+   - **länken till tjänsten**, alltid med och alltid klickbar: [Öppna Processkartan](https://processkartan.promptbanken.se). Skriv den som en länk i svaret, och skriv gärna adressen https://processkartan.promptbanken.se i klartext bredvid,
+   - **nästa steg**: öppna länken, välj **Importera**, välj filen, titta i **Snabbkontroll** och rätta i listan.
+
+   Lägg dessutom dina antaganden och det som var oklart, högst fem punkter. Korta aldrig ned överlämningen: användaren ska kunna klicka direkt och behöver inte leta efter adressen.
+
+## Så ser slutsvaret ut
+
+Korta, konkreta svar fungerar bäst. Så här kan det se ut (anpassa innehållet, behåll länken):
+
+```text
+Klart. Jag har gjort en processkarta över "Behov till införande" och sparat den som behov-till-inforande.processkartan.json.
+
+Den innehåller 4 roller (Verksamhet, Verksamhetsutvecklare, IT, Beslutsfattare), 13 steg, 2 beslut, en slinga tillbaka till analysen och 2 slut.
+
+Antaganden:
+- Jag utgick från en generell kommunal process eftersom underlaget inte nämner några roller.
+- Ansvar som inte framgår har jag lämnat tomt.
+
+Så här öppnar du den:
+1. Öppna [Processkartan](https://processkartan.promptbanken.se)
+2. Välj Importera och välj filen.
+3. Titta i Snabbkontroll under kartan och rätta i listan.
+```
 
 ## Formatet i korthet
 
@@ -117,6 +137,7 @@ Användaren kan ge dig en fil från **Exportera JSON**. Då:
 - [ ] `roleId` är `null` överallt där underlaget inte säger vem som ansvarar.
 - [ ] Inget steg, ingen roll och inget beslut är påhittat.
 - [ ] Alla steg går att nå från start.
+- [ ] Slutsvaret innehåller länken https://processkartan.promptbanken.se och förklarar hur filen importeras.
 
 ## Gränser
 
@@ -128,3 +149,4 @@ Processkartan är medvetet enkel. Den klarar inte BPMN, parallella spår, fri pl
 - `references/modellering.md`: råd om namn, roller, antal steg och layout.
 - `assets/exempel-ansokan.processkartan.json` och `assets/exempel-arende.processkartan.json`: giltiga exempel.
 - `scripts/validate.mjs`: kontrollerar en fil på samma sätt som Processkartans import (kräver Node 18 eller senare).
+- `agents/openai.yaml` och `assets/promptbanken-mark.png`, `assets/promptbanken-icon-512.png`: namn, beskrivning och Promptbankens logotyp som Codex och ChatGPT visar i sina listor över skills. Du behöver inte använda dem i svaret.

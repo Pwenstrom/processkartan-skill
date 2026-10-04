@@ -1,0 +1,7 @@
+interface:
+  display_name: "Processkartan"
+  short_description: "Gör processkartor som går att importera i Processkartan"
+  icon_small: "./assets/promptbanken-mark.png"
+  icon_large: "./assets/promptbanken-icon-512.png"
+  brand_color: "#0b63ce"
+  default_prompt: "Använd $processkartan och gör en processkarta av min beskrivning, så att jag kan importera den i Processkartan."
