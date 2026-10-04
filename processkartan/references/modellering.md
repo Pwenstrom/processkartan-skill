@@ -29,8 +29,8 @@ Råd för att få en karta som är tydlig att läsa. Formatet och reglerna finns
 ## Hur många steg?
 
 - Sju till tjugo steg ger en karta som går att överblicka.
-- Kartan växer åt sidan ungefär en kolumn per steg i en rak följd. En process på 30 steg blir mycket bred.
-- Är processen längre: dela upp den i flera filer, till exempel en per fas, och låt sista steget i den första heta "Fortsätter i: Utredning".
+- Kartan växer åt sidan ungefär en kolumn per steg i en rak följd. Blir den för bred delar Processkartan den automatiskt i delar under varandra (Del 1 av 3 och så vidare), med samma roller som rader i varje del och bokstavsmarkörer (A, B, C …) där en koppling går från en del till en annan. Du behöver inte dela upp en lång process i flera filer för att kartan ska bli läsbar, och du ska inte skriva några markörer själv.
+- Är processen mycket lång, över ungefär fyrtio steg, eller består den av tydliga faser: överväg ändå flera filer, till exempel en per fas, och låt sista steget i den första heta "Fortsätter i: Utredning".
 
 ## Listordningen styr kartan
 
