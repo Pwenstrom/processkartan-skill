@@ -175,11 +175,22 @@ export function verifyZip(buffer, name = SKILL_NAME) {
   return { names, errors };
 }
 
+const TEXT_FILE = /\.(md|json|mjs|js|yaml|yml|txt)$/i;
+
+/**
+ * Filens innehåll som det ska ligga i zippen. Textfiler får alltid LF som radslut, oavsett om de checkades ut med CRLF
+ * (Windows) eller LF, så att en release som byggs på vilken dator som helst blir exakt samma fil. Bilder rörs inte.
+ */
+export function entryData(path, name) {
+  const data = readFileSync(path);
+  return TEXT_FILE.test(name) ? Buffer.from(data.toString('utf8').replace(/\r\n/g, '\n'), 'utf8') : data;
+}
+
 /** Posterna som hamnar i ZIP-filen: varje fil under en toppmapp med skillens namn. */
 export function skillEntries(source = SKILL_SOURCE, name = SKILL_NAME) {
   const files = listFiles(source);
   if (!files.some(f => f.name === 'SKILL.md')) throw new Error(`SKILL.md saknas i ${source}`);
-  return files.map(f => ({ name: `${name}/${f.name}`, data: readFileSync(f.path) }));
+  return files.map(f => ({ name: `${name}/${f.name}`, data: entryData(f.path, f.name) }));
 }
 
 /** Skillens version, ur metadata i SKILL.md. */

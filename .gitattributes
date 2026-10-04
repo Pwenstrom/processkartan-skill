@@ -1,0 +1,5 @@
+# Samma radslut överallt, så att skill.zip blir exakt densamma oavsett var den byggs.
+* text=auto eol=lf
+*.png binary
+*.ico binary
+*.zip binary
