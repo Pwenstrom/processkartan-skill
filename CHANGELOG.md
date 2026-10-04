@@ -2,6 +2,17 @@
 
 Alla märkbara ändringar i Processkartan Skill. Formatet följer [Keep a Changelog](https://keepachangelog.com/sv/1.1.0/) och versionerna är [semantiska](https://semver.org/lang/sv/). Versionen står i `processkartan/SKILL.md` och en release tas fram genom att tagga `v<version>`.
 
+## [1.3.0] - 2026-10-04
+
+### Nytt
+- Överlämningen innehåller nu ett enda komplett JSON-kodblock med exakt samma data som filen, efter meningen "Processkartan är klar. Du kan antingen använda filen eller kopiera JSON-innehållet nedan och klistra in det direkt i Processkartan." Användaren kopierar blocket och trycker Ctrl+V (Cmd+V på Mac) i Processkartan, utan fil. Filen skapas som förut.
+- Kan agenten inte spara filer räcker kodblocket.
+- Skillen kopierar aldrig till urklipp åt användaren (inga `pbcopy`, `clip` eller `xclip`): kopieringen görs av användaren, så att den fungerar i ChatGPT, Codex, Claude och Claude Code.
+- `references/format.md` beskriver vad som gäller när något klistras in och de två nya felmeddelandena.
+
+### Ändrat
+- Gränserna säger inte längre att lodrät layout saknas. Processkartan kan visa kartan stående, och det påverkar inte filen.
+
 ## [1.2.0] - 2026-10-04
 
 ### Nytt

@@ -1,15 +1,15 @@
 ---
 name: processkartan
-description: Gör processkartor (swimlane-flödesscheman) som kan importeras i Processkartan, ett verktyg i Promptbanken (processkartan.promptbanken.se). Använd när användaren vill göra, kartlägga, rita eller ändra en processkarta, ett flödesschema eller en swimlane-karta av en processbeskrivning, mötesanteckningar, en transkribering, ett dokument eller en idé, eller ber om en JSON-fil för Processkartan. Skillen skriver filen (.processkartan.json) i rätt format och kontrollerar den. Använd inte för BPMN-modellering, projektplaner eller organisationsscheman.
+description: Gör processkartor (swimlane-flödesscheman) som kan importeras i Processkartan, ett verktyg i Promptbanken (processkartan.promptbanken.se). Använd när användaren vill göra, kartlägga, rita eller ändra en processkarta, ett flödesschema eller en swimlane-karta av en processbeskrivning, mötesanteckningar, en transkribering, ett dokument eller en idé, eller ber om en JSON-fil för Processkartan. Skillen skriver filen (.processkartan.json) i rätt format, kontrollerar den och ger samma JSON i ett kodblock som kan klistras in direkt i Processkartan. Använd inte för BPMN-modellering, projektplaner eller organisationsscheman.
 metadata:
   author: Promptbanken
-  version: "1.2.0"
+  version: "1.3.0"
   language: sv
 ---
 
 # Processkartan
 
-Du gör om en processbeskrivning till en processkarta i Processkartans JSON-format och sparar den som en fil. Användaren öppnar sedan <https://processkartan.promptbanken.se>, väljer **Importera** och väljer filen. Verktyget ritar kartan automatiskt, med en rad (swimlane) per roll, beslut och slingor. Du ritar alltså aldrig själv. Du beskriver processen som data, och du gör det så noggrant att den blir en tydlig karta.
+Du gör om en processbeskrivning till en processkarta i Processkartans JSON-format, sparar den som en fil och ger samma JSON i ett kodblock som användaren kan kopiera. Användaren öppnar sedan <https://processkartan.promptbanken.se> och trycker Ctrl+V (Cmd+V på Mac) för att klistra in JSON:en, eller väljer **Importera** och väljer filen. Verktyget ritar kartan automatiskt, med en rad (swimlane) per roll, beslut och slingor. Du ritar alltså aldrig själv. Du beskriver processen som data, och du gör det så noggrant att den blir en tydlig karta.
 
 Processkartan är en del av Promptbanken. Verktyget sparar användarens processer lokalt i webbläsaren och har ingen egen AI.
 
@@ -49,10 +49,11 @@ Skillen är komplett i sig. Du behöver inga andra verktyg för att göra en bra
 3. **Ordna stegen.** Listordningen är flödesordningen: ett steg går som standard vidare till nästa steg i listan. Lägg huvudflödet först och undantag och avvikelser efter. Det gör kartan tydligare.
 4. **Skriv JSON-filen** enligt formatet nedan. Fullständiga regler finns i `references/format.md`.
 5. **Kontrollera filen.** Kan du köra kod: kör `node scripts/validate.mjs <fil>`. Det skriptet gör samma kontroll som Processkartans import. Rätta tills det står OK och inga saker att rätta återstår. Kan du inte köra kod: gå igenom checklistan längre ned.
-6. **Lämna över.** Spara filen som `<kort-namn>.processkartan.json`. Överlämningen har alltid tre delar, och de får aldrig kortas bort, inte ens när du i övrigt håller svaret kort:
-   - **filen**: var den finns (eller JSON:en i ett enda kodblock om du inte kan spara filer), och en sammanfattning på 3–5 rader: roller, antal steg och beslut, vilka slingor och slut som finns,
+6. **Lämna över.** Spara filen som `<kort-namn>.processkartan.json` (kan du spara filer). Överlämningen har alltid fyra delar, och de får aldrig kortas bort, inte ens när du i övrigt håller svaret kort:
+   - **filen**: var den finns, och en sammanfattning på 3–5 rader: roller, antal steg och beslut, vilka slingor och slut som finns,
+   - **JSON att kopiera**: meningen "Processkartan är klar. Du kan antingen använda filen eller kopiera JSON-innehållet nedan och klistra in det direkt i Processkartan." följt av **ett enda** komplett JSON-kodblock (` ```json `). Blocket innehåller exakt samma data som filen: hela processen, inget förkortat och inga "…" eller kommentarer, och inget annat än JSON. Kan du inte spara filer lyder meningen i stället "Processkartan är klar. Kopiera JSON-innehållet nedan och klistra in det direkt i Processkartan." Lägg inga andra kodblock i svaret. Försök inte kopiera till urklipp åt användaren (inga `pbcopy`, `clip` eller `xclip`): användaren kopierar själv ur blocket,
    - **länken till tjänsten**, alltid med och alltid klickbar: [Öppna Processkartan](https://processkartan.promptbanken.se). Skriv den som en länk i svaret, och skriv gärna adressen https://processkartan.promptbanken.se i klartext bredvid,
-   - **nästa steg**: öppna länken, välj **Importera**, välj filen, titta i **Snabbkontroll** och rätta i listan.
+   - **nästa steg**: öppna länken och tryck Ctrl+V (Cmd+V på Mac) för att klistra in JSON:en, eller välj **Importera** och välj filen. Titta sedan i **Snabbkontroll** och rätta i listan.
 
    Lägg dessutom dina antaganden och det som var oklart, högst fem punkter. Korta aldrig ned överlämningen: användaren ska kunna klicka direkt och behöver inte leta efter adressen.
 
@@ -61,9 +62,11 @@ Skillen är komplett i sig. Du behöver inga andra verktyg för att göra en bra
 Korta, konkreta svar fungerar bäst. Så här kan det se ut (anpassa innehållet, behåll länken):
 
 ```text
-Klart. Jag har gjort en processkarta över "Behov till införande" och sparat den som behov-till-inforande.processkartan.json.
+Processkartan är klar. Du kan antingen använda filen eller kopiera JSON-innehållet nedan och klistra in det direkt i Processkartan.
 
-Den innehåller 4 roller (Verksamhet, Verksamhetsutvecklare, IT, Beslutsfattare), 13 steg, 2 beslut, en slinga tillbaka till analysen och 2 slut.
+[Här kommer ett enda JSON-kodblock med hela processen, exakt samma innehåll som filen.]
+
+Jag har sparat processen "Behov till införande" som behov-till-inforande.processkartan.json. Den innehåller 4 roller (Verksamhet, Verksamhetsutvecklare, IT, Beslutsfattare), 13 steg, 2 beslut, en slinga tillbaka till analysen och 2 slut.
 
 Antaganden:
 - Jag utgick från en generell kommunal process eftersom underlaget inte nämner några roller.
@@ -71,7 +74,7 @@ Antaganden:
 
 Så här öppnar du den:
 1. Öppna [Processkartan](https://processkartan.promptbanken.se)
-2. Välj Importera och välj filen.
+2. Tryck Ctrl+V (Cmd+V på Mac) för att klistra in JSON:en, eller välj Importera och välj filen.
 3. Titta i Snabbkontroll under kartan och rätta i listan.
 ```
 
@@ -153,11 +156,12 @@ Användaren kan ge dig en fil från **Exportera JSON**. Då:
 - [ ] `roleId` är `null` överallt där underlaget inte säger vem som ansvarar.
 - [ ] Inget steg, ingen roll och inget beslut är påhittat.
 - [ ] Alla steg går att nå från start.
-- [ ] Slutsvaret innehåller länken https://processkartan.promptbanken.se och förklarar hur filen importeras.
+- [ ] Slutsvaret har ett enda komplett JSON-kodblock med exakt samma data som filen, utan förkortningar, och inga andra kodblock.
+- [ ] Slutsvaret innehåller länken https://processkartan.promptbanken.se och förklarar hur man klistrar in JSON:en eller importerar filen.
 
 ## Gränser
 
-Processkartan är medvetet enkel. Den klarar inte BPMN, parallella spår, fri placering av rutor, lodrät layout eller anteckningar och status på ett steg. Kräver underlaget något av det: gör den enklaste fungerande förenklingen och säg det tydligt bland antagandena. Hitta inte på lösningar som formatet inte stöder.
+Processkartan är medvetet enkel. Den klarar inte BPMN, parallella spår, fri placering av rutor eller anteckningar och status på ett steg. Kartan kan visas både liggande och stående, men det väljer användaren i verktyget och det påverkar inte filen. Kräver underlaget något av det: gör den enklaste fungerande förenklingen och säg det tydligt bland antagandena. Hitta inte på lösningar som formatet inte stöder.
 
 ## Filer i skillen
 

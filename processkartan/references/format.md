@@ -77,3 +77,14 @@ Då visas ett felmeddelande och ingenting importeras.
 | Filen är för stor: högst 500 steg och 50 roller. | För många steg eller roller | Dela upp processen |
 
 Filen får vara högst 1 MB. Processkartan klarar att filen börjar med en osynlig BOM-markering och att JSON:en ligger i ett Markdown-kodblock med text runt omkring, men skicka helst bara ren JSON.
+
+## Det som klistras in
+
+Användaren kan klistra in JSON:en i Processkartan (Ctrl+V eller Cmd+V) i stället för att importera en fil. Innehållet får exakt samma kontroll och rättningar som en fil, med två skillnader: ett Markdown-kodblock (` ```json ` eller ` ``` `) runt **hela** texten tas bort, men ingen JSON plockas ur löpande text, så förklaringar före eller efter JSON:en gör att den inte känns igen. Och två egna felmeddelanden gäller före valideringen:
+
+| Meddelande | Betyder | Åtgärd |
+| --- | --- | --- |
+| Det inklistrade innehållet är inte en Processkartan-process. | Texten är inte JSON, eller har text runt JSON:en | Kopiera bara innehållet i kodblocket |
+| JSON hittades, men den använder inte Processkartans format. | Giltig JSON, men `format` saknas eller är inte `"processkartan"` | Lägg `format`, `version` och `process` överst |
+
+Därför ska ditt svar ha JSON:en i ett enda kodblock, och blocket ska vara exakt samma data som filen.

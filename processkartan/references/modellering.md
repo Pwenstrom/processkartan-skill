@@ -43,7 +43,7 @@ Råd för att få en karta som är tydlig att läsa. Formatet och reglerna finns
 
 - **Parallella spår.** Om två saker sker samtidigt: skriv dem efter varandra i den ordning som är mest naturlig, eller använd ett beslut om det verkligen är en förgrening. Berätta det i dina antaganden.
 - **Anteckningar och status på ett steg.** Finns inte.
-- **Fri placering och lodrät layout.** Finns inte. Kartan ritas om automatiskt.
+- **Fri placering av rutor.** Finns inte. Kartan ritas om automatiskt. Användaren kan välja att visa den liggande eller stående, men det ändrar inte filen.
 
 ## Efter importen
 
