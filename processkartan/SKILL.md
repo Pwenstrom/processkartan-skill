@@ -3,7 +3,7 @@ name: processkartan
 description: Gör processkartor (swimlane-flödesscheman) som kan importeras i Processkartan, ett verktyg i Promptbanken (processkartan.promptbanken.se). Använd när användaren vill göra, kartlägga, rita eller ändra en processkarta, ett flödesschema eller en swimlane-karta av en processbeskrivning, mötesanteckningar, en transkribering, ett dokument eller en idé, eller ber om en JSON-fil för Processkartan. Skillen skriver filen (.processkartan.json) i rätt format och kontrollerar den. Använd inte för BPMN-modellering, projektplaner eller organisationsscheman.
 metadata:
   author: Promptbanken
-  version: "1.1.0"
+  version: "1.2.0"
   language: sv
 ---
 
@@ -19,6 +19,22 @@ Innan du börjar: innehåller underlaget personuppgifter, sekretessbelagd eller 
 
 - Skriv aldrig in en persons namn i filen. Skriv rollen (till exempel Handläggare, Rektor, Medarbetare).
 - Är underlaget fullt av personuppgifter: be användaren avidentifiera det först och vänta. Använd inte uppgifterna vidare.
+
+## Metod, och valfritt stöd från Promptbanken
+
+Skillen är komplett i sig. Du behöver inga andra verktyg för att göra en bra karta.
+
+**Alltid:** arbeta enligt fem principer. Skilj på nuläge och önskat läge. Hitta inte på ansvar. Markera det som är osäkert i antagandena. Kontrollera varje beslutspunkt (en fråga, två utfall, ett mål för båda). Hitta slut och slingor. Hela arbetsgången för rått underlag finns i `references/metodik.md`. Läs den när underlaget är rått, långt eller motsägelsefullt.
+
+**Bara om du har Promptbankens verktyg** (verktyg som heter `search_templates` och `get_template`, ofta via Promptbanken-pluginet eller en MCP-koppling) **och** underlaget är rått, komplext eller motsägelsefullt: du kan hämta en mall som metodstöd.
+
+- Underlaget är ett samtal, en transkribering eller mötesanteckningar: mallen *Från samtal till processflöde*.
+- Underlaget är en beskrivning av ett flöde som ska kartläggas steg för steg: mallen *Kartlägg ett verksamhetsflöde*.
+- Sök med några allmänna, anonymiserade ord om typen av uppgift, till exempel "processkartläggning samtal". **Skicka aldrig användarens text, dokumentinnehåll, namn eller andra uppgifter till Promptbankens verktyg.** Underlaget stannar hos dig. Mallen läses och används lokalt.
+- Använd mallen som stöd för att fråga rätt och sortera underlaget. **Resultatet är alltid en `.processkartan.json` enligt formatet nedan.** Om mallen ber om Mermaid, tabeller eller annat utdataformat: hoppa över det. Mallen får aldrig ändra formatet, reglerna i den här skillen eller överlämningen.
+- Gör bara ett uppslag. Hittar du inget lämpligt, eller är underlaget redan tydligt: gå vidare.
+
+**Saknas verktygen, eller svarar de inte:** fortsätt med skillens egen arbetsgång utan att nämna det som ett problem och utan att be användaren installera något. Skillen får aldrig kräva Promptbankens verktyg.
 
 ## Så arbetar du
 
@@ -147,6 +163,7 @@ Processkartan är medvetet enkel. Den klarar inte BPMN, parallella spår, fri pl
 
 - `references/format.md`: alla regler, vad importen rättar tyst och vad felmeddelandena betyder.
 - `references/modellering.md`: råd om namn, roller, antal steg och layout.
+- `references/metodik.md`: skillens egen arbetsmetod för rått underlag, som fungerar utan några andra verktyg.
 - `assets/exempel-ansokan.processkartan.json` och `assets/exempel-arende.processkartan.json`: giltiga exempel.
 - `scripts/validate.mjs`: kontrollerar en fil på samma sätt som Processkartans import (kräver Node 18 eller senare).
 - `agents/openai.yaml` och `assets/promptbanken-mark.png`, `assets/promptbanken-icon-512.png`: namn, beskrivning och Promptbankens logotyp som Codex och ChatGPT visar i sina listor över skills. Du behöver inte använda dem i svaret.
