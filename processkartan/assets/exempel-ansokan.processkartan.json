@@ -1,0 +1,28 @@
+{
+  "format": "processkartan",
+  "version": 1,
+  "process": {
+    "name": "Ansökan om utrustning",
+    "roles": [
+      { "id": "r1", "name": "Medarbetare", "color": "yellow" },
+      { "id": "r2", "name": "Chef", "color": "blue" }
+    ],
+    "steps": [
+      { "id": "s1", "name": "Behov av utrustning uppstår", "type": "start", "roleId": "r1" },
+      { "id": "s2", "name": "Skicka in ansökan", "type": "activity", "roleId": "r1" },
+      {
+        "id": "s3",
+        "name": "Är ansökan komplett?",
+        "type": "decision",
+        "roleId": "r2",
+        "branches": [
+          { "label": "Ja", "targetId": "s5" },
+          { "label": "Nej", "targetId": "s4" }
+        ]
+      },
+      { "id": "s4", "name": "Be om komplettering", "type": "activity", "roleId": "r2", "nextId": "s2" },
+      { "id": "s5", "name": "Besluta om ansökan", "type": "activity", "roleId": "r2" },
+      { "id": "s6", "name": "Beslut meddelat", "type": "end", "roleId": "r2" }
+    ]
+  }
+}

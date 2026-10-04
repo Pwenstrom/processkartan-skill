@@ -1,0 +1,43 @@
+{
+  "format": "processkartan",
+  "version": 1,
+  "process": {
+    "name": "Handläggning av ärende",
+    "roles": [
+      { "id": "r1", "name": "Medborgare", "color": "yellow" },
+      { "id": "r2", "name": "Administration", "color": "blue" },
+      { "id": "r3", "name": "Handläggare", "color": "purple" },
+      { "id": "r4", "name": "Chef", "color": "green" }
+    ],
+    "steps": [
+      { "id": "s1", "name": "Ärende lämnas in", "type": "start", "roleId": "r1" },
+      { "id": "s2", "name": "Registrera ärendet", "type": "activity", "roleId": "r2" },
+      {
+        "id": "s3",
+        "name": "Är underlaget komplett?",
+        "type": "decision",
+        "roleId": "r3",
+        "branches": [
+          { "label": "Ja", "targetId": "s5" },
+          { "label": "Nej", "targetId": "s4" }
+        ]
+      },
+      { "id": "s4", "name": "Begär komplettering", "type": "activity", "roleId": "r2", "nextId": "s2" },
+      { "id": "s5", "name": "Utreda ärendet", "type": "activity", "roleId": "r3" },
+      {
+        "id": "s6",
+        "name": "Kan handläggaren besluta?",
+        "type": "decision",
+        "roleId": "r3",
+        "branches": [
+          { "label": "Ja", "targetId": "s8" },
+          { "label": "Nej, chef beslutar", "targetId": "s7" }
+        ]
+      },
+      { "id": "s7", "name": "Chefen beslutar", "type": "activity", "roleId": "r4", "nextId": "s9" },
+      { "id": "s8", "name": "Handläggaren beslutar", "type": "activity", "roleId": "r3" },
+      { "id": "s9", "name": "Meddela beslut", "type": "activity", "roleId": "r2" },
+      { "id": "s10", "name": "Ärendet avslutat", "type": "end", "roleId": "r2" }
+    ]
+  }
+}
